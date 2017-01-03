@@ -76,15 +76,8 @@ public class mypluginform implements ToolWindowFactory{
             dlm.addElement(one_package);
         }
 
-        list1.setModel(dlm);
+        list1.MakeModel(dlm);
 
-    }
-
-    private void init_setrenderer(){
-        list1.setCellRenderer(new CustomListRenderer());
-        list2.setCellRenderer(new CustomListRenderer());
-        list3.setCellRenderer(new CustomListRenderer());
-        list4.setCellRenderer(new CustomListRenderer());
     }
 
 
@@ -93,6 +86,33 @@ public class mypluginform implements ToolWindowFactory{
             if(!arg0.getValueIsAdjusting())
                 make_class_list(project, list1.getSelectedValues());
         });
+        list2.addListSelectionListener((ListSelectionEvent arg0) -> {
+            if(!arg0.getValueIsAdjusting()) {
+                make_method_list(project, (PsiClass) list2.getSelectedValue());
+                System.out.println(list2.getSelectedValue());
+            }
+        });
+    }
+
+    private void make_method_list(Project project,PsiClass pcls){
+        DefaultListModel dlm = new DefaultListModel();
+        PsiMethod[] methods = pcls.getMethods();
+        PsiField[] fields = pcls.getFields();
+
+        if(methods != null) {
+            for (PsiMethod method : methods) {
+                dlm.addElement(method);
+            }
+            list3.MakeModel(dlm);
+        }
+        DefaultListModel dlm2 = new DefaultListModel();
+        if(fields != null) {
+            for (PsiField field : fields) {
+                dlm2.addElement(field);
+            }
+        }
+        list4.MakeModel(dlm2);
+
     }
 
     private void make_class_list(Project project,Object[] objs){
@@ -110,14 +130,18 @@ public class mypluginform implements ToolWindowFactory{
             }
         }
 
-        list2.setModel(dlm);
+        list2.MakeModel(dlm);
     }
 
     private void init_form_design(){
         Panel1.add(list1);
+        list2.setSelectionMode(DefaultListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         Panel2.add(list2);
+        list2.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         Panel3.add(list3);
+        list2.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         Panel4.add(list4);
+        list2.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         init_lists_scroll(list1,Panel1);
         init_lists_scroll(list2,Panel2);
         init_lists_scroll(list3,Panel3);
@@ -148,6 +172,6 @@ public class mypluginform implements ToolWindowFactory{
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        list1 = new CustomList();
+
     }
 }

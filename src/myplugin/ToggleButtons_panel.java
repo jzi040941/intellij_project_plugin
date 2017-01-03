@@ -1,5 +1,7 @@
 package myplugin;
 
+import org.apache.batik.util.gui.resource.JToolbarButton;
+
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -18,14 +20,15 @@ public class ToggleButtons_panel extends JToolBar {
         add(abstract_button);
         add(static_button);
         add(derived_button);
-        abstract_button.addItemListener((ItemEvent ev) -> {
-            if(ev.getStateChange()==ItemEvent.SELECTED){
+        abstract_button.addActionListener(e -> {
+            JToggleButton tbtn = (JToggleButton)e.getSource();
+            if(tbtn.isSelected()){
                 System.out.println("hello");
-            } else if(ev.getStateChange()==ItemEvent.DESELECTED){
+            } else{
                 System.out.println("button is not selected");
             }
-
         });
+
     }
 
 }
