@@ -14,17 +14,7 @@
         </constraints>
         <properties/>
         <border type="none"/>
-        <children>
-          <component id="c0d35" class="javax.swing.JList" binding="list1" default-binding="true">
-            <constraints border-constraint="Center"/>
-            <properties>
-              <model>
-                <item value="hello"/>
-              </model>
-              <selectionMode value="0"/>
-            </properties>
-          </component>
-        </children>
+        <children/>
       </grid>
       <grid id="9c842" binding="Panel2" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
@@ -33,14 +23,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="f28c7" class="javax.swing.JList" binding="list2" default-binding="true">
-            <constraints border-constraint="Center"/>
-            <properties>
-              <model>
-                <item value="hello2"/>
-              </model>
-            </properties>
-          </component>
+          <grid id="9b7be" binding="Panel2_bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="e340b" binding="Panel3" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -50,14 +38,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="ed971" class="javax.swing.JList" binding="list3" default-binding="true">
-            <constraints border-constraint="Center"/>
-            <properties>
-              <model>
-                <item value="heloo3"/>
-              </model>
-            </properties>
-          </component>
+          <grid id="acd36" binding="Panel3_bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="7f39f" binding="Panel4" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -67,14 +53,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="c64e" class="javax.swing.JList" binding="list4" default-binding="true">
-            <constraints border-constraint="Center"/>
-            <properties>
-              <model>
-                <item value="hello4"/>
-              </model>
-            </properties>
-          </component>
+          <grid id="58da0" binding="Panel4_bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
     </children>

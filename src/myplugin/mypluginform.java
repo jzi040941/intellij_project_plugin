@@ -17,23 +17,29 @@ import com.sun.istack.internal.NotNull;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.ArrayList;
 
 /**
  * Created by 노성훈 on 2016-12-31.
  */
 public class mypluginform implements ToolWindowFactory{
-    private JList list1;
-    private JList list2;
-    private JList list3;
-    private JList list4;
+    private CustomList list1 = new CustomList();
+    private CustomList list2 = new CustomList();
+    private CustomList list3 = new CustomList();
+    private CustomList list4 = new CustomList();
     private JPanel myToolWindowContent;
     private JPanel Panel1;
     private JPanel Panel2;
     private JPanel Panel3;
     private JPanel Panel4;
+    private JPanel Panel2_bottom;
+    private JPanel Panel3_bottom;
+    private JPanel Panel4_bottom;
     private ToolWindow myToolWindow;
     private PsiPackage mypsipackage;
-
+    private JToolBar Panel2_Toolbar;
+    private JToolBar Panel3_Toolbar;
+    private JToolBar Panel4_Toolbar;
 
 
     private void init_lists_scroll(JList list,JPanel panel){
@@ -44,48 +50,87 @@ public class mypluginform implements ToolWindowFactory{
         panel.add(scrollPane);
         scrollPane.setVisible(true);
 
+
+        /*
+        JToggleButton static_button= new JToggleButton("static");
+        Panel2_bottom.add(static_button,new GridConstraints());
+        */
+    }
+
+    private void init_toolbar(){
+        Panel2_Toolbar = new ToggleButtons_panel(list2);
+        Panel2_bottom.add(Panel2_Toolbar);
+        Panel3_Toolbar = new ToggleButtons_panel(list3);
+        Panel3_bottom.add(Panel3_Toolbar);
+        Panel4_Toolbar = new ToggleButtons_panel(list4);
+        Panel4_bottom.add(Panel4_Toolbar);
     }
 
     private void init_packageslists(Project project) {
         PsiPackage pack = JavaPsiFacade.getInstance(project).findPackage("");
         PsiPackage[] psiPackages = pack.getSubPackages();
 
-
         DefaultListModel dlm = new DefaultListModel();
 
         for (PsiPackage one_package : psiPackages) {
-            dlm.addElement(one_package.getName());
+            dlm.addElement(one_package);
         }
 
         list1.setModel(dlm);
 
     }
 
+    private void init_setrenderer(){
+        list1.setCellRenderer(new CustomListRenderer());
+        list2.setCellRenderer(new CustomListRenderer());
+        list3.setCellRenderer(new CustomListRenderer());
+        list4.setCellRenderer(new CustomListRenderer());
+    }
+
+
     private void list_selection_eventlistener_set(Project project){
         list1.addListSelectionListener((ListSelectionEvent arg0) -> {
             if(!arg0.getValueIsAdjusting())
-                make_class_list(project, list1.getSelectedValue().toString());
+                make_class_list(project, list1.getSelectedValues());
         });
     }
 
-    private void make_class_list(Project project,String packageName){
-        PsiClass[] classes = JavaPsiFacade.getInstance(project).findPackage(packageName).getClasses();
+    private void make_class_list(Project project,Object[] objs){
+        ArrayList<PsiClass[]> classeslist = new ArrayList<PsiClass[]>();
+        for(Object obj : objs) {
+            Class cls = obj.getClass();
+            classeslist.add(JavaPsiFacade.getInstance(project).findPackage(((PsiPackage) obj).getName()).getClasses());
+        }
 
         DefaultListModel dlm = new DefaultListModel();
-
-        for (PsiClass oneclass : classes) {
-            dlm.addElement(oneclass.getName());
+        for(PsiClass[] classes : classeslist) {
+            for (PsiClass oneclass : classes) {
+                dlm.addElement(oneclass);
+                System.out.println(oneclass.getModifierList().toString());
+            }
         }
 
         list2.setModel(dlm);
     }
 
-
-    public void createToolWindowContent(Project project, ToolWindow toolWindow){
+    private void init_form_design(){
+        Panel1.add(list1);
+        Panel2.add(list2);
+        Panel3.add(list3);
+        Panel4.add(list4);
         init_lists_scroll(list1,Panel1);
         init_lists_scroll(list2,Panel2);
         init_lists_scroll(list3,Panel3);
         init_lists_scroll(list4,Panel4);
+    }
+
+
+
+    public void createToolWindowContent(Project project, ToolWindow toolWindow){
+        init_form_design();
+        init_toolbar();
+
+
         //init_lists_scroll(list2,myToolWindowContent);
         list_selection_eventlistener_set(project);
 
@@ -98,5 +143,11 @@ public class mypluginform implements ToolWindowFactory{
 
 
 
+    }
+
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        list1 = new CustomList();
     }
 }
